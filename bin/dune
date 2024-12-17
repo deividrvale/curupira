@@ -1,0 +1,4 @@
+(executable
+ (public_name curupira)
+ (name main)
+ (libraries curupira))
