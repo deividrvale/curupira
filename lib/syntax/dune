@@ -1,0 +1,4 @@
+(library
+ (name syntax)
+ (public_name curupira.syntax)
+ (libraries utils))
