@@ -27,6 +27,6 @@ let () =
   let _ = Atoms.fresh () in
   let _ = Atoms.fresh () in
   let x = Atoms.fresh () in
-  let pId = FPerms.id x in
-  (* let compute_with_id = pId x in *)
+  let pId = FPerms.id in
+  let compute_with_id = pId x in
   Utils.Lists.print_list AtomsNames.to_string (AtomsNames.name_list ())
