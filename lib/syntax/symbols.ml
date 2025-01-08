@@ -31,6 +31,8 @@ module type ATOM = sig
   val atom_list : unit -> t list
 
   val fresh : unit -> t
+
+  val to_string : t -> string
 end
 
 (*-----------------------------------------------------------------------------
@@ -129,4 +131,6 @@ module NamedAtoms (A : NAME) : ATOM with type t = A.t =
         A.symbolize
           (fun _ -> let _ = fresh_an n in ())
           (prefix ^ postfix)
+
+    let to_string = A.to_string
   end
