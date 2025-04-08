@@ -2,17 +2,17 @@ open Perm
 open Symbols
 
 module type SYNTAX = sig
-  type a (* atoms *)
-  type v (* variables *)
-  type f (* function symbols *)
-  type p (* permutation *)
+  type atm (* atoms     *)
+  type var (* variables *)
+  type fct (* function symbols *)
+  type pmt (* permutation *)
 
-  type s = f * int (*  *)
+  type s = fct -> int (* signature *)
 
   type term =
-  | Atm of a
-  | Sus of p * v
-  | Abs of a * term
+  | Atm of atm
+  | Sus of pmt * var
+  | Abs of atm * term
   | Fct of s * term list
 
 end
@@ -21,12 +21,13 @@ module type NOM =
   functor (A : ATOM)
           (V : NAME)
           (F : NAME)
-          (P : PERM) ->
+          (P : PERM)
+          ->
             SYNTAX
-              with type a = A.t and
-                   type v = V.t and
-                   type f = F.t and
-                   type p = P.t
+              with type atm = A.t and
+                   type var = V.t and
+                   type fct = F.t and
+                   type pmt = P.t
 
 module Make : NOM =
   functor (A : ATOM)
@@ -34,17 +35,20 @@ module Make : NOM =
           (F : NAME)
           (P : PERM) ->
   struct
-    type a = A.t
-    type v = V.t
-    type f = F.t
-    type p = P.t
+    type atm = A.t
+    type var = V.t
+    type fct = F.t
+    type pmt = P.t
 
-    type s = f * int (*  *)
+    type s = fct -> int (*  *)
+
+    let f (x : atm) =
+      A.equal x x
 
     type term =
-    | Atm of a
-    | Sus of p * v
-    | Abs of a * term
+    | Atm of atm
+    | Sus of pmt * var
+    | Abs of atm * term
     | Fct of s * term list
   end
 

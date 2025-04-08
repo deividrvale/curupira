@@ -1,25 +1,34 @@
 open Symbols
 
 module type PERM =
+(** Defines the base signature for permutations. *)
 sig
   type t
+  (** The abstrac type representing permutations. *)
 
   type a
+  (** The abstract type representing atoms. Permutations act on atoms. *)
 
   type supp = a list
-  val id : t
+  (** The type representing the support of a permutation.
 
-  val app : t -> a -> a
+  The support is defined as those expressions
+  *)
+
+  val id   : t
+  val app  : t -> a -> a
   val comp : t -> t -> t
-  val inv : t -> t
-  val get_supp : t -> supp
+  val inv  : t -> t
+  val get_supp  : t -> supp
   val to_string : t -> string
 end
 
-module type FuncPerm =
+
+
+module type PermMake =
   functor (A : ATOM) -> PERM with type a = A.t and type t = A.t -> A.t
 
-module FuncPerm : FuncPerm = functor (A : ATOM) -> struct
+module FuncPerm : PermMake = functor (A : ATOM) -> struct
   type t = A.t -> A.t
   type a = A.t
 
